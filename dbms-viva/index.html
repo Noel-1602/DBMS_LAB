@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTU S4 DBMS Lab — Viva Q&A</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #0d0f14;
+            --surface: #14171f;
+            --surface2: #1c2030;
+            --border: #2a2f42;
+            --accent: #6c8fff;
+            --accent2: #a78bff;
+            --text: #e8eaf0;
+            --muted: #7a7f96;
+            --green: #4ade80;
+            --amber: #fbbf24;
+            --coral: #f87171;
+            --teal: #34d399;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            min-height: 100vh;
+            padding: 0
+        }
+
+        .header {
+            padding: 28px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface)
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .header p {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            padding: 14px 24px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .search-wrap {
+            flex: 1;
+            min-width: 200px;
+            position: relative
+        }
+
+        .search-wrap input {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            padding: 8px 12px 8px 34px;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color .2s
+        }
+
+        .search-wrap input:focus {
+            border-color: var(--accent)
+        }
+
+        .search-wrap svg {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: .4
+        }
+
+        .filter-wrap {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .chip {
+            font-family: 'Syne', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 11px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .15s;
+            letter-spacing: .3px
+        }
+
+        .chip.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(108, 143, 255, .1)
+        }
+
+        .chip:hover:not(.active) {
+            border-color: var(--text);
+            color: var(--text)
+        }
+
+        .stats {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            padding: 8px 24px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface)
+        }
+
+        .list {
+            padding: 16px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color .2s
+        }
+
+        .card:hover {
+            border-color: var(--border)
+        }
+
+        .card-q {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            user-select: none
+        }
+
+        .card-q:hover {
+            background: var(--surface2)
+        }
+
+        .qnum {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            min-width: 28px;
+            margin-top: 2px
+        }
+
+        .qtext {
+            font-size: 13px;
+            font-weight: 600;
+            flex: 1;
+            line-height: 1.5
+        }
+
+        .badge {
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 3px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+            margin-top: 2px
+        }
+
+        .chevron {
+            color: var(--muted);
+            transition: transform .2s;
+            flex-shrink: 0;
+            margin-top: 3px
+        }
+
+        .card.open .chevron {
+            transform: rotate(180deg)
+        }
+
+        .card-a {
+            display: none;
+            padding: 14px 16px 16px 56px;
+            border-top: 1px solid var(--border);
+            background: var(--surface2);
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--text)
+        }
+
+        .card.open .card-a {
+            display: block
+        }
+
+        .card-a code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2px 6px;
+            color: var(--accent)
+        }
+
+        .card-a pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 10px 0;
+            overflow-x: auto;
+            line-height: 1.6;
+            color: #c9d1e9
+        }
+
+        .card-a ul {
+            padding-left: 18px;
+            margin-top: 6px
+        }
+
+        .card-a li {
+            margin-bottom: 4px
+        }
+
+        .card-a strong {
+            color: var(--accent);
+            font-weight: 600
+        }
+
+        .empty {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        /* topic colors */
+        .t0 {
+            background: rgba(108, 143, 255, .12);
+            color: #6c8fff;
+            border-color: rgba(108, 143, 255, .3)
+        }
+
+        .t1 {
+            background: rgba(74, 222, 128, .1);
+            color: #4ade80;
+            border-color: rgba(74, 222, 128, .3)
+        }
+
+        .t2 {
+            background: rgba(251, 191, 36, .1);
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, .3)
+        }
+
+        .t3 {
+            background: rgba(248, 113, 113, .1);
+            color: #f87171;
+            border-color: rgba(248, 113, 113, .3)
+        }
+
+        .t4 {
+            background: rgba(52, 211, 153, .1);
+            color: #34d399;
+            border-color: rgba(52, 211, 153, .3)
+        }
+
+        .t5 {
+            background: rgba(167, 139, 255, .12);
+            color: #a78bff;
+            border-color: rgba(167, 139, 255, .3)
+        }
+
+        .t6 {
+            background: rgba(251, 146, 60, .1);
+            color: #fb923c;
+            border-color: rgba(251, 146, 60, .3)
+        }
+
+        .t7 {
+            background: rgba(232, 121, 249, .1);
+            color: #e879f9;
+            border-color: rgba(232, 121, 249, .3)
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>KTU S4 DBMS Lab — Viva Q&A</h1>
+        <p>2024 Scheme · All possible viva questions with answers</p>
+    </div>
+
+    <div class="controls">
+        <div class="search-wrap">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input id="srch" type="text" placeholder="Search questions..." oninput="render()">
+        </div>
+        <div class="filter-wrap" id="filters"></div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div class="list" id="list"></div>
+
+    <script>
+        const topics = [
+            "ER & Schema Design", "DDL", "DML", "Aggregates & Clauses", "Joins & Subqueries", "TCL & DCL", "Views, Triggers & Procedures", "Cassandra & MongoDB"
+        ];
+
+        const data = [
+            // ── ER & SCHEMA DESIGN ──
+            { t: 0, q: "What is an ER diagram and why is it used?", a: `An <strong>Entity-Relationship (ER) diagram</strong> is a visual blueprint of a database. It shows:<ul><li><strong>Entities</strong> — real-world objects (e.g., Student, Course)</li><li><strong>Attributes</strong> — properties of entities (e.g., name, roll_no)</li><li><strong>Relationships</strong> — how entities are associated</li></ul>It is used to design a logical structure before writing any SQL, ensuring all data requirements are captured clearly.` },
+            { t: 0, q: "What are the different types of attributes in an ER diagram?", a: `<ul><li><strong>Simple</strong> — cannot be divided (e.g., age)</li><li><strong>Composite</strong> — can be split (e.g., name → first_name, last_name)</li><li><strong>Derived</strong> — computed from another (e.g., age from DOB)</li><li><strong>Multi-valued</strong> — can hold multiple values (e.g., phone numbers)</li><li><strong>Key attribute</strong> — uniquely identifies an entity (underlined in ER)</li></ul>` },
+            { t: 0, q: "What is cardinality in an ER diagram?", a: `Cardinality defines the <strong>numerical relationship</strong> between entities:<ul><li><strong>1:1</strong> — One person has one passport</li><li><strong>1:N</strong> — One teacher teaches many students</li><li><strong>M:N</strong> — Many students enroll in many courses</li></ul>Cardinality determines how tables are linked (foreign keys, junction tables).` },
+            { t: 0, q: "What is a weak entity?", a: `A <strong>weak entity</strong> cannot be uniquely identified by its own attributes alone — it depends on a <strong>strong entity</strong> (owner entity). It has a <strong>partial key</strong> (dashed underline) and uses the owner's key to form a complete identifier.<br><br>Example: <code>ORDER_ITEM</code> is weak — it depends on <code>ORDER</code> (order_id + item_no together identify it).` },
+            { t: 0, q: "What is the difference between a primary key and a candidate key?", a: `<ul><li><strong>Candidate key</strong> — any attribute or minimal set of attributes that can uniquely identify a row (there can be many)</li><li><strong>Primary key</strong> — the one candidate key chosen by the designer to be the main identifier (only one per table)</li></ul>Example: In a student table, both <code>student_id</code> and <code>email</code> are candidate keys; we choose <code>student_id</code> as primary key.` },
+            { t: 0, q: "What is a surrogate key?", a: `A <strong>surrogate key</strong> is an artificial, system-generated key (usually an auto-incremented integer or UUID) with <strong>no business meaning</strong>. It is used when no natural unique attribute exists or when natural keys are complex.<br><br>Example: <code>id INT AUTO_INCREMENT PRIMARY KEY</code>` },
+            { t: 0, q: "What is normalization? Name the normal forms.", a: `<strong>Normalization</strong> is the process of organizing a database to reduce data redundancy and improve data integrity.<ul><li><strong>1NF</strong> — Atomic values only (no repeating groups)</li><li><strong>2NF</strong> — 1NF + no partial dependency on a composite key</li><li><strong>3NF</strong> — 2NF + no transitive dependency</li><li><strong>BCNF</strong> — Stronger 3NF: every determinant must be a candidate key</li></ul>` },
+            {
+                t: 0, q: "What is a foreign key and what does it enforce?", a: `A <strong>foreign key</strong> is a column (or set of columns) in one table that <strong>references the primary key</strong> of another table. It enforces <strong>referential integrity</strong> — ensuring that a value in the foreign key column always exists in the referenced table.<pre>CREATE TABLE enrollment (
+  student_id INT,
+  course_id  INT,
+  FOREIGN KEY (student_id) REFERENCES students(student_id)
+);</pre>`},
+
+            // ── DDL ──
+            { t: 1, q: "What is DDL? List its commands.", a: `<strong>Data Definition Language (DDL)</strong> defines and manages the database structure. Commands:<ul><li><code>CREATE</code> — create database/table/index</li><li><code>ALTER</code> — modify existing structure</li><li><code>DROP</code> — delete table/database</li><li><code>TRUNCATE</code> — remove all rows but keep structure</li><li><code>RENAME</code> — rename a table</li></ul>DDL commands are <strong>auto-committed</strong> — they cannot be rolled back.` },
+            { t: 1, q: "What is the difference between DROP, DELETE and TRUNCATE?", a: `<ul><li><strong>DROP</strong> — removes the entire table (structure + data). Cannot be rolled back.</li><li><strong>TRUNCATE</strong> — removes all rows but keeps the table structure. Auto-committed. Faster than DELETE.</li><li><strong>DELETE</strong> — removes specific rows (with WHERE). Can be rolled back. DML command.</li></ul>` },
+            { t: 1, q: "What are constraints in SQL? List them.", a: `<strong>Constraints</strong> enforce rules on data in a table:<ul><li><code>PRIMARY KEY</code> — unique + not null</li><li><code>FOREIGN KEY</code> — referential integrity</li><li><code>UNIQUE</code> — all values must be unique</li><li><code>NOT NULL</code> — value cannot be null</li><li><code>CHECK</code> — custom condition must be true</li><li><code>DEFAULT</code> — assigns a default value</li></ul>` },
+            { t: 1, q: "What is the difference between CHAR and VARCHAR?", a: `<ul><li><strong>CHAR(n)</strong> — fixed-length. Always stores exactly n characters (padded with spaces). Faster for fixed-size data like PIN codes.</li><li><strong>VARCHAR(n)</strong> — variable-length. Stores up to n characters; only uses needed space. Better for variable data like names.</li></ul>` },
+            { t: 1, q: "What is an index? Why is it used?", a: `An <strong>index</strong> is a data structure (typically a B-tree) that speeds up <strong>SELECT queries</strong> by allowing the database engine to find rows without scanning every row.<pre>CREATE INDEX idx_name ON students(name);</pre>Trade-off: Indexes speed up reads but <strong>slow down writes</strong> (INSERT/UPDATE/DELETE must also update the index).` },
+            { t: 1, q: "What is the difference between a unique index and a primary key?", a: `<ul><li>A <strong>primary key</strong> is always unique and cannot be NULL. Only one per table.</li><li>A <strong>unique index/constraint</strong> ensures uniqueness but allows NULL (in most databases). Multiple unique indexes are allowed per table.</li></ul>` },
+
+            // ── DML ──
+            { t: 2, q: "What is DML? List its commands.", a: `<strong>Data Manipulation Language (DML)</strong> deals with data inside tables. Commands:<ul><li><code>INSERT</code> — add new rows</li><li><code>SELECT</code> — retrieve rows</li><li><code>UPDATE</code> — modify existing rows</li><li><code>DELETE</code> — remove rows</li></ul>DML commands are <strong>not auto-committed</strong> — they can be rolled back.` },
+            {
+                t: 2, q: "What is the difference between WHERE and HAVING?", a: `<ul><li><strong>WHERE</strong> — filters rows <em>before</em> grouping. Used with individual rows.</li><li><strong>HAVING</strong> — filters groups <em>after</em> GROUP BY. Used with aggregate functions.</li></ul><pre>SELECT dept, COUNT(*) FROM employees
+WHERE salary > 30000
+GROUP BY dept
+HAVING COUNT(*) > 5;</pre>`},
+            { t: 2, q: "What does SELECT DISTINCT do?", a: `<code>SELECT DISTINCT</code> eliminates <strong>duplicate rows</strong> from the result set. It returns only unique combinations of the selected columns.<pre>SELECT DISTINCT city FROM students;</pre>` },
+            {
+                t: 2, q: "What is a NULL value? How do you check for NULL?", a: `<strong>NULL</strong> means the absence of a value — it is not zero or empty string. You cannot use <code>=</code> to check for NULL.<pre>-- Wrong:  WHERE phone = NULL
+-- Correct:
+SELECT * FROM students WHERE phone IS NULL;
+SELECT * FROM students WHERE phone IS NOT NULL;</pre>`},
+            {
+                t: 2, q: "What is the use of LIKE in SQL?", a: `<code>LIKE</code> is used for <strong>pattern matching</strong> in string columns.<ul><li><code>%</code> — matches any sequence of characters</li><li><code>_</code> — matches exactly one character</li></ul><pre>SELECT * FROM students WHERE name LIKE 'A%';   -- starts with A
+SELECT * FROM students WHERE name LIKE '_oh%'; -- second char is 'o','h'</pre>`},
+            {
+                t: 2, q: "What is the difference between BETWEEN and IN operators?", a: `<ul><li><strong>BETWEEN a AND b</strong> — checks if a value falls within a range (inclusive)</li><li><strong>IN (val1, val2, ...)</strong> — checks if a value matches any item in a list</li></ul><pre>WHERE age BETWEEN 18 AND 25
+WHERE dept IN ('CSE', 'ECE', 'IT')</pre>`},
+
+            // ── AGGREGATES & CLAUSES ──
+            { t: 3, q: "What are aggregate functions in SQL?", a: `Aggregate functions operate on a <strong>set of rows</strong> and return a single value:<ul><li><code>COUNT(*)</code> — number of rows</li><li><code>SUM(col)</code> — total of numeric column</li><li><code>AVG(col)</code> — average value</li><li><code>MAX(col)</code> — maximum value</li><li><code>MIN(col)</code> — minimum value</li></ul>They ignore NULL values (except COUNT(*)).` },
+            {
+                t: 3, q: "What is GROUP BY used for?", a: `<code>GROUP BY</code> groups rows that have the <strong>same value</strong> in specified columns, so aggregate functions can be applied to each group.<pre>SELECT dept, AVG(salary)
+FROM employees
+GROUP BY dept;</pre>Every column in SELECT that is not an aggregate must appear in GROUP BY.`},
+            {
+                t: 3, q: "What is the ORDER BY clause?", a: `<code>ORDER BY</code> sorts the result set. Default order is <strong>ascending (ASC)</strong>.<pre>SELECT name, marks FROM students
+ORDER BY marks DESC;   -- highest first
+
+ORDER BY dept ASC, name ASC;  -- multi-column sort</pre>`},
+            {
+                t: 3, q: "What is the LIMIT clause?", a: `<code>LIMIT</code> restricts the number of rows returned by a SELECT query.<pre>SELECT * FROM students ORDER BY marks DESC LIMIT 5;
+-- Returns top 5 students by marks
+
+LIMIT 10 OFFSET 20;  -- skip 20, return next 10 (pagination)</pre>`},
+            {
+                t: 3, q: "What is the difference between COUNT(*) and COUNT(column)?", a: `<ul><li><code>COUNT(*)</code> — counts all rows including those with NULL values</li><li><code>COUNT(column)</code> — counts only rows where that column is <strong>not NULL</strong></li></ul><pre>SELECT COUNT(*), COUNT(phone) FROM students;
+-- COUNT(*) might return 100; COUNT(phone) might return 78 if 22 have no phone</pre>`},
+
+            // ── JOINS & SUBQUERIES ──
+            {
+                t: 4, q: "What is a JOIN? What are the types?", a: `A <strong>JOIN</strong> combines rows from two or more tables based on a related column.<ul><li><strong>INNER JOIN</strong> — only matching rows in both tables</li><li><strong>LEFT JOIN</strong> — all rows from left table + matching rows from right</li><li><strong>RIGHT JOIN</strong> — all rows from right table + matching rows from left</li><li><strong>FULL OUTER JOIN</strong> — all rows from both tables</li><li><strong>CROSS JOIN</strong> — Cartesian product (all combinations)</li></ul><pre>-- INNER JOIN: only students with enrollment
+SELECT s.name, c.title
+FROM students s INNER JOIN enrollment e ON s.id = e.student_id
+INNER JOIN course c ON c.id = e.course_id;
+
+-- LEFT JOIN: all students, even unenrolled (course = NULL)
+SELECT s.name, c.title
+FROM students s LEFT JOIN enrollment e ON s.id = e.student_id
+LEFT JOIN course c ON c.id = e.course_id;</pre>INNER JOIN is more restrictive — LEFT JOIN preserves all left-table rows.`},
+            {
+                t: 4, q: "What is a subquery (nested query)?", a: `A <strong>subquery</strong> is a SELECT statement embedded inside another SQL statement. It runs first and passes its result to the outer query.<pre>-- Students who are enrolled in course 3
+SELECT name FROM students
+WHERE student_id IN (
+  SELECT student_id FROM enrollment WHERE course_id = 3
+);</pre>Types: scalar (returns 1 value), row, column, table subqueries.`},
+            { t: 4, q: "What is the difference between a subquery and a JOIN?", a: `<ul><li><strong>JOIN</strong> — merges rows from tables side-by-side. Generally faster; can return columns from both tables.</li><li><strong>Subquery</strong> — one query nested inside another. Easier to read for filtering; evaluated once (correlated subqueries evaluate per row).</li></ul>Prefer JOINs for performance; use subqueries when logic is clearer.` },
+            { t: 4, q: "What are SET operators? Explain UNION, INTERSECT, EXCEPT.", a: `SET operators combine results of two SELECT queries (columns and types must match):<ul><li><strong>UNION</strong> — all distinct rows from both queries</li><li><strong>UNION ALL</strong> — all rows including duplicates</li><li><strong>INTERSECT</strong> — only rows present in both</li><li><strong>MINUS / EXCEPT</strong> — rows in first query not in second</li></ul><pre>SELECT name FROM batch_A UNION SELECT name FROM batch_B;</pre>` },
+            {
+                t: 4, q: "What is a correlated subquery?", a: `A <strong>correlated subquery</strong> references a column from the outer query — it is re-evaluated for <strong>each row</strong> of the outer query.<pre>-- Students whose marks are above their department average
+SELECT name, marks FROM students s
+WHERE marks > (
+  SELECT AVG(marks) FROM students
+  WHERE dept = s.dept  -- references outer query's s.dept
+);</pre>`},
+
+            // ── TCL & DCL ──
+            { t: 5, q: "What is a transaction? What are its ACID properties?", a: `A <strong>transaction</strong> is a logical unit of work containing one or more SQL operations that must all succeed or all fail together.<ul><li><strong>Atomicity</strong> — all or nothing</li><li><strong>Consistency</strong> — database moves from one valid state to another</li><li><strong>Isolation</strong> — concurrent transactions do not interfere</li><li><strong>Durability</strong> — committed changes persist even after system failure</li></ul>` },
+            { t: 5, q: "What are TCL commands? Explain each.", a: `<strong>Transaction Control Language:</strong><ul><li><code>COMMIT</code> — permanently saves all changes in the current transaction</li><li><code>ROLLBACK</code> — undoes all changes since the last COMMIT or SAVEPOINT</li><li><code>SAVEPOINT name</code> — creates a marker inside a transaction to partially rollback</li><li><code>ROLLBACK TO name</code> — reverts to a specific savepoint without ending the transaction</li></ul>` },
+            { t: 5, q: "What is the difference between COMMIT and ROLLBACK?", a: `<ul><li><strong>COMMIT</strong> — makes all changes in the current transaction <strong>permanent</strong> and visible to others. Cannot be undone.</li><li><strong>ROLLBACK</strong> — <strong>undoes</strong> all uncommitted changes, restoring the database to its previous committed state.</li></ul>` },
+            {
+                t: 5, q: "What is a SAVEPOINT and when would you use it?", a: `A <strong>SAVEPOINT</strong> marks a point within a transaction to which you can selectively roll back, without undoing the entire transaction.<pre>BEGIN;
+INSERT INTO orders VALUES (1, 'Laptop', 500);
+SAVEPOINT sp1;
+INSERT INTO orders VALUES (2, 'Mouse', 20);
+-- Oops, wrong item
+ROLLBACK TO sp1;  -- only second INSERT is undone
+COMMIT;           -- first INSERT is committed</pre>`},
+            {
+                t: 5, q: "What is DCL? What commands does it include?", a: `<strong>Data Control Language (DCL)</strong> manages <strong>access permissions</strong> in a database:<ul><li><code>GRANT</code> — gives a user specific privileges</li><li><code>REVOKE</code> — removes previously granted privileges</li></ul><pre>GRANT SELECT, INSERT ON students TO 'user1'@'localhost';
+REVOKE INSERT ON students FROM 'user1'@'localhost';</pre>`},
+            { t: 5, q: "What are the types of privileges in SQL?", a: `<ul><li><strong>Object privileges</strong> — on specific tables/views: SELECT, INSERT, UPDATE, DELETE, REFERENCES, INDEX</li><li><strong>System privileges</strong> — database-level: CREATE TABLE, CREATE USER, DROP ANY TABLE</li><li><strong>Role-based</strong> — DBA, CONNECT, RESOURCE (Oracle) — bundles of privileges assigned as a unit</li></ul>` },
+            { t: 5, q: "What are isolation levels in transactions?", a: `Isolation levels control how much one transaction is affected by others running concurrently:<ul><li><strong>READ UNCOMMITTED</strong> — can read uncommitted (dirty) data</li><li><strong>READ COMMITTED</strong> — reads only committed data (default in most DBs)</li><li><strong>REPEATABLE READ</strong> — same row reads always return same value in a transaction</li><li><strong>SERIALIZABLE</strong> — full isolation; transactions run as if sequential</li></ul>` },
+
+            // ── VIEWS, TRIGGERS, PROCEDURES ──
+            {
+                t: 6, q: "What is a view in SQL? What are its advantages?", a: `A <strong>view</strong> is a <strong>virtual table</strong> defined by a stored SELECT query. It doesn't store data physically.<pre>CREATE VIEW top_students AS
+SELECT name, marks FROM students WHERE marks > 85;</pre>Advantages:<ul><li>Simplifies complex queries</li><li>Data security (expose only certain columns)</li><li>Logical data independence</li></ul>`},
+            { t: 6, q: "What is the difference between a view and a table?", a: `<ul><li>A <strong>table</strong> physically stores data on disk.</li><li>A <strong>view</strong> is a named query — it retrieves data from underlying tables each time it is queried. No physical storage (unless it's a materialized view).</li></ul>Views can be queried like tables but typically cannot be updated if they contain JOINs, GROUP BY, or DISTINCT.` },
+            {
+                t: 6, q: "What is a stored procedure? How is it different from a function?", a: `<strong>Stored Procedure:</strong> a saved block of SQL + procedural code, executed with <code>CALL</code>. Can have IN/OUT parameters. May or may not return a value. Can perform DML.<br><br><strong>Function:</strong> must <strong>return a value</strong>, used inside SQL expressions (SELECT, WHERE). Cannot perform DML (in most databases). Called inline.<pre>-- Procedure
+CALL get_student(5);
+
+-- Function used inline
+SELECT full_name(first, last) FROM employees;</pre>`},
+            {
+                t: 6, q: "What is a trigger? When does it fire?", a: `A <strong>trigger</strong> is a stored procedure that <strong>automatically executes</strong> in response to a specific event on a table.<ul><li>Events: <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></li><li>Timing: <code>BEFORE</code> or <code>AFTER</code> the event</li><li>Scope: <code>FOR EACH ROW</code></li></ul><pre>CREATE TRIGGER before_insert_student
+BEFORE INSERT ON students
+FOR EACH ROW
+SET NEW.name = UPPER(NEW.name);</pre>`},
+            { t: 6, q: "What is the difference between BEFORE and AFTER triggers?", a: `<ul><li><strong>BEFORE trigger</strong> — fires before the actual DML operation. Can <strong>modify NEW values</strong> before they are saved. Used for validation/transformation.</li><li><strong>AFTER trigger</strong> — fires after the DML is committed. Used for logging, cascading actions, or updating related tables.</li></ul>` },
+            {
+                t: 6, q: "What is a cursor and why is it used?", a: `A <strong>cursor</strong> is a database object used to <strong>iterate over a result set row by row</strong> — useful when you need procedural logic per row.<pre>DECLARE cur CURSOR FOR SELECT name FROM students;
+DECLARE v_name VARCHAR(100);
+OPEN cur;
+LOOP
+  FETCH cur INTO v_name;
+  -- process each name
+END LOOP;
+CLOSE cur;</pre>Cursors are slower than set-based operations and should be used only when row-by-row processing is truly necessary.`},
+            { t: 6, q: "What is a package in Oracle PL/SQL?", a: `A <strong>package</strong> is a schema object that groups related <strong>procedures, functions, variables, and cursors</strong> together. It has two parts:<ul><li><strong>Package Specification</strong> (header) — declares the public interface</li><li><strong>Package Body</strong> — contains the implementation</li></ul>Packages improve modularity, encapsulation, and performance (entire package is loaded into memory at first call).` },
+            {
+                t: 6, q: "What is an assertion in SQL?", a: `An <strong>assertion</strong> is a general integrity constraint that can span multiple tables. It is defined with <code>CREATE ASSERTION</code> (SQL standard, supported in limited databases).<pre>CREATE ASSERTION check_salary
+CHECK (NOT EXISTS (
+  SELECT * FROM employees WHERE salary > 100000 AND dept = 'INTERN'
+));</pre>Unlike CHECK constraints (which are column/table level), assertions are schema-level constraints.`},
+
+            // ── CASSANDRA & MONGODB ──
+            { t: 7, q: "What is Apache Cassandra? How is it different from a relational database?", a: `<strong>Apache Cassandra</strong> is a distributed, column-family NoSQL database optimised for <strong>high availability and scalability</strong>.<ul><li>No joins or foreign keys</li><li>Schema-optional (flexible columns)</li><li>Eventual consistency model</li><li>Designed for write-heavy, distributed workloads</li><li>Uses CQL (similar to SQL syntax)</li></ul>RDBMS enforces ACID; Cassandra follows <strong>BASE</strong> (Basically Available, Soft-state, Eventually consistent).` },
+            {
+                t: 7, q: "What is a keyspace in Cassandra?", a: `A <strong>keyspace</strong> is the top-level namespace in Cassandra, equivalent to a <strong>database</strong> in SQL. It defines the <strong>replication strategy</strong> and replication factor.<pre>CREATE KEYSPACE college
+WITH replication = {
+  'class': 'SimpleStrategy',
+  'replication_factor': 3
+};</pre>`},
+            {
+                t: 7, q: "What is a partition key in Cassandra?", a: `The <strong>partition key</strong> determines <strong>which node</strong> stores a given row. Cassandra hashes the partition key to decide data placement. Choosing a good partition key is critical — a poor choice causes <strong>hot spots</strong> (overloaded nodes).<pre>CREATE TABLE students (
+  dept TEXT,
+  student_id UUID,
+  name TEXT,
+  PRIMARY KEY (dept, student_id)
+  -- dept = partition key, student_id = clustering column
+);</pre>`},
+            { t: 7, q: "What is CQL and how does it compare to SQL?", a: `<strong>CQL (Cassandra Query Language)</strong> has SQL-like syntax but key differences:<ul><li>No JOINs</li><li>No subqueries</li><li>Queries must include the <strong>partition key</strong> in WHERE (use ALLOW FILTERING otherwise, which is expensive)</li><li>No GROUP BY (in most versions)</li><li>Eventual consistency by default</li></ul><pre>SELECT name, email FROM students WHERE dept = 'CSE';</pre>` },
+            {
+                t: 7, q: "What is MongoDB? How does it store data?", a: `<strong>MongoDB</strong> is a document-oriented NoSQL database. It stores data as <strong>BSON documents</strong> (Binary JSON) in <strong>collections</strong> (analogous to tables). Each document can have a different structure — no fixed schema required.<pre>{
+  "_id": ObjectId("..."),
+  "name": "Arjun",
+  "marks": 88,
+  "subjects": ["DBMS", "OS"]
+}</pre>`},
+            { t: 7, q: "What is the difference between SQL and NoSQL databases?", a: `<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:6px"><tr style="border-bottom:1px solid #2a2f42"><th style="text-align:left;padding:4px 8px;color:#6c8fff">SQL</th><th style="text-align:left;padding:4px 8px;color:#6c8fff">NoSQL</th></tr><tr><td style="padding:4px 8px">Fixed schema (tables)</td><td style="padding:4px 8px">Flexible schema (documents/columns)</td></tr><tr><td style="padding:4px 8px">ACID transactions</td><td style="padding:4px 8px">BASE model</td></tr><tr><td style="padding:4px 8px">Vertical scaling</td><td style="padding:4px 8px">Horizontal scaling</td></tr><tr><td style="padding:4px 8px">Supports JOINs</td><td style="padding:4px 8px">No/limited JOINs</td></tr><tr><td style="padding:4px 8px">E.g. MySQL, Oracle</td><td style="padding:4px 8px">E.g. MongoDB, Cassandra</td></tr></table>` },
+            {
+                t: 7, q: "What are the basic CRUD operations in MongoDB using Python (pymongo)?", a: `<pre>from pymongo import MongoClient
+client = MongoClient("mongodb://localhost:27017/")
+db = client["college"]
+col = db["students"]
+
+# Create
+col.insert_one({"name": "Priya", "marks": 91})
+
+# Read
+doc = col.find_one({"name": "Priya"})
+
+# Update
+col.update_one({"name": "Priya"}, {"$set": {"marks": 95}})
+
+# Delete
+col.delete_one({"name": "Priya"})
+
+# Query with condition
+for s in col.find({"marks": {"$gt": 80}}):
+    print(s["name"])</pre>`},
+            { t: 7, q: "What is eventual consistency in Cassandra?", a: `<strong>Eventual consistency</strong> means that if no new updates are made, all replicas of a data item will <strong>eventually converge</strong> to the same value — but at any given instant, different nodes may return slightly different data.<br><br>Cassandra allows tuning consistency level per query:<ul><li><code>ONE</code> — fastest, reads from one replica</li><li><code>QUORUM</code> — majority of replicas must agree</li><li><code>ALL</code> — all replicas must respond (strongest)</li></ul>` },
+        ];
+
+        let activeFilter = -1;
+
+        function buildFilters() {
+            const f = document.getElementById('filters');
+            const all = document.createElement('button');
+            all.className = 'chip active'; all.textContent = 'All';
+            all.onclick = () => { activeFilter = -1; document.querySelectorAll('.chip').forEach(c => c.classList.remove('active')); all.classList.add('active'); render() };
+            f.appendChild(all);
+            topics.forEach((name, i) => {
+                const b = document.createElement('button');
+                b.className = 'chip'; b.textContent = name;
+                b.onclick = () => { activeFilter = i; document.querySelectorAll('.chip').forEach(c => c.classList.remove('active')); b.classList.add('active'); render() };
+                f.appendChild(b);
+            });
+        }
+
+        function render() {
+            const q = document.getElementById('srch').value.toLowerCase();
+            const list = document.getElementById('list');
+            list.innerHTML = '';
+            let shown = 0;
+            data.forEach((item, i) => {
+                if (activeFilter >= 0 && item.t !== activeFilter) return;
+                if (q && !item.q.toLowerCase().includes(q) && !item.a.toLowerCase().includes(q)) return;
+                shown++;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<div class="card-q">
+      <span class="qnum">Q${i + 1}</span>
+      <span class="qtext">${item.q}</span>
+      <span class="badge t${item.t}">${topics[item.t]}</span>
+      <svg class="chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+    <div class="card-a">${item.a}</div>`;
+                card.querySelector('.card-q').onclick = () => card.classList.toggle('open');
+                list.appendChild(card);
+            });
+            if (shown === 0) list.innerHTML = '<div class="empty">No questions match your search.</div>';
+            document.getElementById('stats').textContent = `Showing ${shown} of ${data.length} questions`;
+        }
+
+        buildFilters();
+        render();
+    </script>
+
+</body>
+
+</html>

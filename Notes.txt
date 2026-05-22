@@ -1,0 +1,479 @@
+EXAM FOCUSED NOTES
+
+---------------------------------------------------------------------------------
+MODULE 1 :- INTRODUCTION TO DBMS AND ER MODEL
+---------------------------------------------------------------------------------
+
+A database is a collection of related data. It is a collection of programs that enable users to create and maintain a database.
+
+-->DBMS – Definition
+Database Management System (DBMS) is software used to create, store, retrieve, update and manage databases.
+Examples: MySQL, Oracle, PostgreSQL, MongoDB.
+
+-->Advantages of DBMS
+    Reduces data redundancy
+    Improves data consistency
+    Data sharing
+    Security and authorization
+    Backup and recovery
+    Concurrency control
+
+-->Structured Data
+Structured data is highly organized and formatted so that it is easily searchable in relational databases. It follows a rigid schema (a blueprint), meaning every piece of data must fit into a predefined category and format.
+
+-->Semi-Structured Data
+Semi-structured data does not reside in a relational database but has some organizational properties that make it easier to analyze than raw data. It uses metadata or tags to separate data elements and create hierarchies.
+
+-->Unstructured Data
+Unstructured data is information that either lacks a predefined data model or is not organized in a predefined manner. It is typically "heavy" data that is difficult for traditional machines to understand without specialized tools like AI or Natural Language Processing (NLP).
+
+-->Data Abstraction
+    Three levels:
+        Physical Level – How data is stored.
+        Logical Level – What data is stored.
+        View Level – User-specific view.
+
+-->Three Schema Architecture
+The major purpose of a database system is to provide users with an abstract view of data. Developers hide the complexity through several levels of abstraction. 
+
+It divides the database into:
+    1. External level
+        This is the "highest" level and is the one closest to the users. It describes only the part of the database that is relevant to a specific user or group.
+    2. Conceptual Schema
+        It describes what data is stored in the entire database and the relationships among that data. It defines all the tables (entities), their attributes (columns), data types, and constraints (like unique keys). 
+    3. Internal Level (Physical level)
+        It describes how the data is physically stored on the storage devices. It deals with complex details like data compression, encryption, and file structures.
+
+NB: The process of transforming requests & results between levels is called mapping.
+
+-->Data Independence
+Defined as the capacity to change the schema at one level of a DB system without affecting the schema at the next higher level.
+    Physical Data Independence
+    Logical Data Independence
+
+-->DATABASE LANGUAGES
+    1.Data Definition Language (DDL)  
+        Statements are used to define the database structure or schema. 
+        CREATE - to create objects in the database 
+        ALTER - alters the structure of the database 
+        DROP - delete objects from the database
+        TRUNCATE - to remove all records from a table
+
+    2.Data Manipulation Language (DML)  
+        Statements are used for managing data within schema objects. 
+        SELECT - Retrieve data from the database 
+        INSERT - Insert data into a table 
+        UPDATE - Updates existing data within a table 
+        DELETE - deletes all records from a table
+
+    3.Data Control Language (DCL) 
+        GRANT - gives user access privileges to the database 
+        REVOKE - withdraw access privileges given with the GRANT command.
+
+    4.Transaction Control Language (TCL) 
+        COMMIT - save work done 
+        ROLLBACK - restores the database to its state before the last COMMIT.
+
+-->DBMS Interfaces
+    1.Graphical Interfaces
+    2.Menu-Based Interfaces
+    3.Natural Language Interfaces (NLIs)
+    4.Web-Based Interfaces
+
+-->DBMS Architecture
+    1.Centralized Database Architecture
+    2.Client-Server Architecture
+    3. N-Tier Architecture
+
+-->Entity-Relationship (ER) Model 
+    1.Entity
+        An entity is any real-world object that is distinguishable from other objects. In ER modeling, an entity is represented by a rectangle and refers to a table in the database.  
+        Example: Student, Course, Employee.
+    2.Attributes
+        Attributes are properties or characteristics of an entity. They are represented by ellipses in ER diagrams. 
+        Example: For a Student entity, attributes can be Roll Number, Name, Age, and Grade.
+        -->Types of Attributes
+            1.Simple Attributes – indivisible
+            2.Composite Attributes – can be divided into smaller parts
+            3.Single-Valued Attributes – can have only one value
+            4.Multi-Valued Attributes – can have multiple values
+            5.Derived Attributes – calculated from other attributes
+    3.Relationship
+        A relationship is an association between two or more entities. It is represented by a diamond shape.
+        Example: A "Studies In" relationship between Student and Course.    
+    4.Cardinality
+            Types of Cardinality Ratios:
+            One-to-One (1:1)
+            One-to-Many (1:N)
+            Many-to-One (M:1)
+            Many-to-Many (M:N)
+        
+-->Entity Set
+    An entity set is a collection of entities of the same type that share common properties or attributes. In other words, it is a set of similar entities.
+    Example: A "Student" entity set can contain all students in a college.
+    
+-->Keys
+     Primary Key – Unique identifier for an entity.
+     Foreign Key – Attribute that references the primary key of another table.  
+     Candidate Key – One of the many keys that can be chosen as a primary key.  
+     Super Key – Set of attributes that uniquely identifies an entity.  
+     Composite Key – Primary key made up of two or more attributes.
+     Alternative Key - Candidate key that is not selected as a primary key.     
+
+-->Cardinality 
+    Cardinality in ER diagrams refers to the number of instances of one entity that can be associated with the number of instances of another entity in a relationship. It specifies the minimum and maximum number of relationships that can exist between two entities. 
+    Example: In a "Student" and "Course" relationship, the cardinality can be one-to-many, meaning one student can enroll in many courses, but one course can be enrolled in by many students.  
+    
+-->Participation
+    Participation in ER diagrams refers to the degree to which an entity is involved in a relationship. It specifies the minimum and maximum number of relationships that can exist between two entities. 
+    Example: In a "Student" and "Course" relationship, the participation can be total, meaning every student must enroll in at least one course, or partial, meaning some students may not enroll in any course.
+    Types of Participation:
+        Total Participation - Minimum participation is 1 (entity must participate in the relationship)
+        Partial Participation   - Minimum participation is 0 (entity may not participate in the relationship)
+
+-->Strong Entity
+    A strong entity is an entity that can be identified by its own attributes. It has a primary key that uniquely identifies each entity in the entity set.  
+    Example: A "Student" entity is a strong entity because it can be identified by its own attributes, such as Roll Number, Name, Age, and Grade.  
+    
+-->Weak Entity
+    A weak entity is an entity that cannot be identified by its own attributes. It depends on another entity (called the owner or identifying entity) for its identification.  
+    Example: A "Dependent" entity is a weak entity because it cannot be identified by its own attributes. It depends on the "Employee" entity for its identification.
+    
+-->Components of ER Diagrams
+    1.Rectangles – for entities
+    2.Ellipses – for attributes
+    3.Diamonds – for relationships
+    4.Lines – to connect entities and attributes
+    5.Double lines – for weak entities
+    6.Underlined attributes – for primary keys
+
+    
+---------------------------------------------------------
+MODULE 2 :- Relational Model & SQL
+---------------------------------------------------------
+
+-->Relational Model
+Data is stored in tables called relations.
+
+-->Terminologies
+    Relation → Table
+    Tuple → Row
+    Attribute → Column
+    Degree → Number of columns
+    Cardinality → Number of rows
+
+-->Relational Algebra (Very Important)
+    Operations:
+        1.Selection (σ) - selects tuples based on condition
+        2.Projection (π) - selects columns based on condition
+        3.Union (∪) - combines two relations
+        4.Set Difference (-) - selects tuples from one relation that are not in another
+        5.Cartesian Product (×) - combines all tuples from two relations
+        6.Rename (ρ) - renames a relation
+        7.Join - combines two relations based on a condition
+        8.Division - divides two relations
+
+-->SQL (Structured Query Language)
+    SQL is a declarative language used to interact with relational databases.
+    Components:
+        DDL (Data Definition Language)
+        DML (Data Manipulation Language)
+        DCL (Data Control Language)
+        TCL (Transaction Control Language)
+    -->SQL Commands
+        DDL commands: 
+            CREATE, ALTER, DROP, TRUNCATE, RENAME
+        DML commands: 
+            SELECT, INSERT, UPDATE, DELETE
+        DCL commands: 
+            GRANT, REVOKE
+        TCL commands: 
+            COMMIT, ROLLBACK
+
+-->Joins        
+
+    INNER JOIN - Returns rows that have matching values in both tables
+        a.Theta Join - Joins two tables based on a specific condition
+        b.Equijoin - A type of theta join that uses equality as the condition
+        c.Natural Join - Joins two tables based on a common attribute
+
+    OUTER JOIN -  returns all values from one table and only matching values from the other table 
+        a.Left Outer Join - Returns all rows from the left table, and matching rows from the right table
+        b.Right Outer Join - Returns all rows from the right table, and matching rows from the left table
+        c.Full Outer Join - Returns all rows from both tables
+
+-->Aggregate Functions
+    -Aggregate functions are used to perform calculations on a set of values and return a single value
+    -Syntax: 
+        SELECT AGGREGATE_FUNCTION(column_name) FROM table_name WHERE condition;
+    -Example: 
+        SELECT COUNT(*) FROM table_name;
+        SELECT SUM(salary) FROM table_name;
+        SELECT AVG(salary) FROM table_name;
+        SELECT MIN(salary) FROM table_name; 
+        SELECT MAX(salary) FROM table_name;
+    
+    -->Group By
+        -The GROUP BY clause is used to group rows that have the same values in one or more columns.   
+        -Syntax: 
+            SELECT column1, column2 FROM table_name WHERE condition GROUP BY column1, column2;
+        -Example: 
+            SELECT department, COUNT(*) FROM employees GROUP BY department;
+
+ -->Having
+    -The HAVING clause is used to filter the results of a GROUP BY clause.
+    -Syntax: 
+        SELECT column1, column2 FROM table_name WHERE condition GROUP BY column1, column2 HAVING condition;
+    -Example: 
+        SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 10;
+        
+ -->OrderBy
+    -The ORDER BY clause is used to sort the results of a query.   
+    -Syntax: 
+        SELECT column1, column2 FROM table_name WHERE condition GROUP BY column1, column2 HAVING condition ORDER BY column1, column2 ASC/DESC;
+    -Example: 
+        SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 10 ORDER BY COUNT(*) DESC;   
+
+ -->Count()
+    -COUNT() is an aggregate function that returns the number of rows in a result set.
+    -Syntax: 
+        SELECT COUNT(*) FROM table_name WHERE condition;
+    -Example: 
+        SELECT COUNT(*) FROM employees WHERE salary > 100000;    
+
+ -->Sum()
+    -SUM() is an aggregate function that returns the sum of values in a result set.    
+    -Syntax: 
+        SELECT SUM(column_name) FROM table_name WHERE condition;
+    -Example: 
+        SELECT SUM(salary) FROM employees WHERE department = 'HR';    
+
+ -->Avg()
+    -AVG() is an aggregate function that returns the average of values in a result set.    
+    -Syntax: 
+        SELECT AVG(column_name) FROM table_name WHERE condition;
+    -Example: 
+        SELECT AVG(salary) FROM employees WHERE department = 'HR';    
+
+ -->Min()
+    -MIN() is an aggregate function that returns the minimum value in a result set.    
+    -Syntax: 
+        SELECT MIN(column_name) FROM table_name WHERE condition;
+    -Example: 
+        SELECT MIN(salary) FROM employees WHERE department = 'HR';    
+
+ -->Max()
+    -MAX() is an aggregate function that returns the maximum value in a result set.    
+    -Syntax: 
+        SELECT MAX(column_name) FROM table_name WHERE condition;
+    -Example: 
+        SELECT MAX(salary) FROM employees WHERE department = 'HR';    
+
+
+ -->
+
+ -->Assertion
+    -It is a database object that contains a condition that must be true for all data in the database.
+    -It is used to enforce data integrity.
+        -Syntax: 
+            CREATE ASSERTION assertion_name CHECK (condition);
+        -Example: 
+            CREATE ASSERTION salary_check CHECK (salary > 0);
+
+-->View 
+    -A view is a virtual table based on the result-set of a SQL statement.
+    -It is a database object that contains a condition that must be true for all data in the database.
+    -It is used to enforce data integrity.
+        -Syntax: 
+            CREATE VIEW view_name AS SELECT column1, column2 FROM table_name WHERE condition;
+
+-->Trigger
+    -A trigger is a database object that contains a condition that must be true for all data in the database.
+    -It is used to automatically execute a set of SQL statements when a specific event occurs in the database.
+        Triggers based on DML events:
+            -BEFORE INSERT - Executes before the INSERT operation
+            -AFTER INSERT - Executes after the INSERT operation
+            -BEFORE UPDATE - Executes before the UPDATE operation
+            -AFTER UPDATE - Executes after the UPDATE operation
+            -BEFORE DELETE - Executes before the DELETE operation
+            -AFTER DELETE - Executes after the DELETE operation
+    -Syntax: 
+        CREATE TRIGGER trigger_name AFTER INSERT ON table_name FOR EACH ROW BEGIN --SQL statements END;
+
+
+---------------------------------------------------------
+MODULE 3 :- Transaction Processing & Concurrency Control
+---------------------------------------------------------
+
+-->Functional Dependencies
+    -It is a constraint that specifies the relationship between two sets of attributes in a relation.
+    -It is denoted as X → Y, where X is the determinant and Y is the dependent.
+    -Example: Roll No → Name, where Roll No determines Name.
+
+    -->Types of functional dependencies:
+        1.Partial Dependency
+            -A functional dependency where a non-key attribute is functionally dependent on only a part of the primary key.
+            -Example: Roll No, Course No → Grade, where Course No is functionally dependent on only Roll No and Course No.   
+        2.Transitive Dependency
+            -A functional dependency where a non-key attribute is functionally dependent on only a part of the primary key.
+            -Example: Roll No -> Tutor and Tutor -> Dept_No.        
+
+-->Normalisation    
+    Goal - Reduces Data Redundancy and Improves Data Integrity
+    Normal Forms:
+        1NF (First Normal Form) - No repeating groups, all attributes are atomic
+        2NF (Second Normal Form) - 1NF + No partial dependencies
+        3NF (Third Normal Form) - 2NF + No transitive dependencies
+        BCNF (Boyce-Codd Normal Form) - 3NF + Every determinant is a super key
+
+-->Anomalies in database 
+    1.Insertion Anomaly      (when we cannot insert a record into one table)
+    2.Deletion Anomaly       (when we cannot delete a record from one table)
+    3.Update Anomaly         (when we cannot update a record in one table)
+    
+-->Transaction Properties (ACID Properties)
+    A transaction is a single logical unit of work that consists of one or more database operations.
+        1.Atomicity - 
+            -A transaction is treated as a single unit of work. 
+            -It either completes successfully or fails completely.    
+            
+            -Example: 
+                Bank Transfer(Withdraw from one account and deposit into another account). 
+
+                If the withdrawal is successful but the deposit fails, the entire transaction is rolled back.
+            
+        2.Consistency -
+            -A transaction must leave the database in a consistent state. 
+            -It must follow all the rules and constraints of the database.
+            
+            -Example: 
+                In a bank transfer, the total amount of money in the system should remain the same before and after the transaction.
+            
+        3.Isolation -
+            -Multiple transactions should be able to execute independently without affecting each other. 
+            -Each transaction should appear to be the only transaction executing in the system.
+            -Example: 
+                If two users are withdrawing money from the same account at the same time, the result should be the same as if they were executing one after the other.
+            
+        4.Durability -
+            -Once a transaction is committed, its changes should be permanent and should not be lost even if the system fails. 
+            -Example: 
+                If a transaction is committed, the changes should be saved to disk and should be recoverable even if the system crashes.
+                
+    -->Transaction states
+        1.Active State - (Executing the transaction)    
+        2.Partially Committed State - (After the last operation of the transaction has been executed)
+        3.Committed State - (After the transaction has been committed)
+        4.Failed State - (After the transaction has failed)
+        5.Terminated State - (End of transaction)
+
+-->Concurrency Control    
+    Concurrency Control - Management of simultaneous transactions to ensure data integrity
+    
+        -->Types of schedules
+            1.Serial Schedule - Transactions are executed one after another
+            2.Concurrent Schedule - Transactions are executed simultaneously
+        -->Problems in concurrent execution
+            1.Lost Update
+                -A situation where two or more transactions are updating the same data and one of the updates is lost.
+            2.Dirty Read
+                -A situation where one transaction reads the data that is not committed by another transaction.
+            3.Non-repeatable Read
+                -A situation where one transaction reads the same data twice and gets different values.
+            4.Phantom Read
+                -A situation where one transaction reads new rows that are inserted by another transaction.
+
+-->Serializability
+    -A serializability is a property of concurrent transactions that ensures that the result of concurrent execution is the same as the result of serial execution.  
+    -->conflict serializability 
+        -Detect conflicts between transactions 
+            -> Create conflict graph 
+            -> If cycle exists then not serializable
+    -->view serializability     
+        -Check if a schedule is view serializable: 
+            -Two schedules are view equivalent if they have the same initial and final values 
+            -A schedule is view serializable if it is view equivalent to a serial schedule 
+        
+-->Two phase locking
+    - A concurrency control protocol that ensures serializability by dividing transactions into two phases: 
+    - Phase 1: Growing phase (transaction acquires locks)
+        - transaction can only acquire locks
+        - transaction cannot release locks
+    - Phase 2: Shrinking phase (transaction releases locks)
+        - transaction can only release locks
+        - transaction cannot acquire locks
+
+-->Database Recovery
+    -The process of restoring the database to a consistent state after a failure.
+    -Used to recover from system crashes, hardware failures, and software errors.
+    -->Deferred Update
+        - All changes are recorded in the log buffer and applied to the database only at commit time. 
+        - No changes are applied to the database until the transaction is committed.  
+    -->Immediate Update
+        - Changes are applied to the database as soon as they are made. 
+        - Changes are applied to the database immediately after the transaction is committed.   
+    
+-->Shadow Paging
+    - A disk-based transaction management technique that uses shadow pages to recover from failures. 
+    -on commit transaction pages point to new pages and old pages are discarded    
+    -on abort discards the new pages and reinstates shadow pages 
+
+
+---------------------------------------------------------
+MODULE 4 :- NOSQL DATABASES
+---------------------------------------------------------
+
+-->NoSQL Databases
+    -NoSQL Databases are non-relational databases that are used to store and manage large amounts of unstructured data.
+    -They are designed to provide high scalability, availability, and flexibility.  
+
+    -->Properties of NoSQL Databases:
+        -Schema-less
+        -Horizontal Scalability
+        -High Availability
+        -Flexibility
+        -Cost-effective
+
+-->Types of NoSQL Databases
+    1.Key-Value Stores
+        -Key-value stores are the simplest type of NoSQL databases.
+        -They are used to store and retrieve data using a key-value pair.
+        -Example: Redis, Amazon DynamoDB
+    2.Document Databases
+        -Document databases are used to store and retrieve data in the form of documents.
+        -Documents are similar to JSON objects and can have nested structures.
+        -Example: MongoDB, Couchbase
+    3.Column-Family Databases
+        -Column-family databases are used to store and retrieve data in the form of columns.
+        -Columns are grouped together to form column families.
+        -Example: Cassandra, HBase
+    4.Graph Databases
+        -Graph databases are used to store and retrieve data in the form of graphs.
+        -Graphs consist of nodes and edges.
+        -Example: Neo4j, Amazon Neptune
+
+-->CAP theorem (Consistency, Availability, Partition Tolerance)
+    -The CAP theorem states that a distributed system can provide any two of the following three guarantees:
+        1.Consistency
+            -All nodes in the system have the same data at the same time.
+        2.Availability
+            -Every request received by a non-failing node in the system receives a response.
+        3.Partition Tolerance
+            -The system continues to operate despite network partitions.   
+
+-->CAP combinations
+    1.CP (Consistency + Partition Tolerance)
+        -System maintains consistency and partition tolerance at the cost of availability.
+    2.AP (Availability + Partition Tolerance)
+        -System maintains availability and partition tolerance at the cost of consistency. 
+    3.AC (Consistency + Availability)
+        -System maintains consistency and availability at the cost of partition tolerance.
+
+-->BASE theorem (Basically Available, Soft state, Eventual consistency)
+    -The BASE theorem is a set of properties that are used to describe NoSQL databases.
+    1.Basically Available
+        -The system is always available.
+    2.Soft state
+        -The system state can change over time.
+    3.Eventual consistency
+        -The system will eventually be consistent.        
