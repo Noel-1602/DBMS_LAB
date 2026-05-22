@@ -5,7 +5,7 @@ An interactive, responsive single-page web application (SPA) designed to help st
 ---
 
 ### Click the link below to view the website
-[DBMS viva Q&A](dbms-lab-nine.vercel.app)
+[DBMS viva Q&A](https://noel-1602.github.io/DBMS_LAB/)
 
 ---
 
