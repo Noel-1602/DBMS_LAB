@@ -19,7 +19,7 @@ An interactive, responsive single-page web application (SPA) designed to help st
 
 ## 📖 Theory Syllabus Reference
 
-For a deeper dive into the theory, read the [Notes.txt](file:///Users/noel/Coding/DBMS/Notes.txt) file:
+For a deeper dive into the theory, read the [Notes.txt](Notes.txt) file:
 * **Module 1**: Introduction to DBMS, Three-Schema Architecture, Data Independence, and the ER Model.
 * **Module 2**: The Relational Model, Relational Algebra, and structured SQL queries.
 * **Module 3**: Normalization, Anomalies, ACID properties, Transaction States, Concurrency Control (2PL), and Shadow Paging.
