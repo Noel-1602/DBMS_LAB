@@ -14,11 +14,6 @@ An interactive, responsive single-page web application (SPA) designed to help st
 * **Instant Search**: Search through both questions and detailed answers in real-time as you type.
 * **Topic filtering**: Interactive chips to narrow down questions by specific topics.
 * **Interactive Q&A Cards**: Sleek collapsible cards with rotating chevrons for clean readability.
-* **Modern Premium Styling**:
-  - Dark-mode interface designed with custom palettes.
-  - Custom typography using Google Fonts (Syne and JetBrains Mono).
-  - Code syntax formatting for SQL statements, CQL, and Python snippets.
-* **No External JS Dependencies**: Lightweight vanilla Javascript logic guarantees instant loading and responsive animations.
 
 ---
 
