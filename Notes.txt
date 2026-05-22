@@ -1,8 +1,9 @@
-EXAM FOCUSED NOTES
+                                                *** EXAM FOCUSED NOTES ***
 
----------------------------------------------------------------------------------
+
+---------------------------------------------------------
 MODULE 1 :- INTRODUCTION TO DBMS AND ER MODEL
----------------------------------------------------------------------------------
+---------------------------------------------------------
 
 A database is a collection of related data. It is a collection of programs that enable users to create and maintain a database.
 
@@ -147,7 +148,10 @@ Defined as the capacity to change the schema at one level of a DB system without
     5.Double lines – for weak entities
     6.Underlined attributes – for primary keys
 
-    
+
+
+
+
 ---------------------------------------------------------
 MODULE 2 :- Relational Model & SQL
 ---------------------------------------------------------
@@ -301,6 +305,9 @@ Data is stored in tables called relations.
         CREATE TRIGGER trigger_name AFTER INSERT ON table_name FOR EACH ROW BEGIN --SQL statements END;
 
 
+
+
+
 ---------------------------------------------------------
 MODULE 3 :- Transaction Processing & Concurrency Control
 ---------------------------------------------------------
@@ -419,6 +426,9 @@ MODULE 3 :- Transaction Processing & Concurrency Control
     -on abort discards the new pages and reinstates shadow pages 
 
 
+
+
+
 ---------------------------------------------------------
 MODULE 4 :- NOSQL DATABASES
 ---------------------------------------------------------
@@ -476,4 +486,7 @@ MODULE 4 :- NOSQL DATABASES
     2.Soft state
         -The system state can change over time.
     3.Eventual consistency
-        -The system will eventually be consistent.        
+        -The system will eventually be consistent. 
+
+
+------------------------------------------END------------------------------------------------- 
