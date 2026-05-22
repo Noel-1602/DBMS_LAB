@@ -20,13 +20,16 @@ Examples: MySQL, Oracle, PostgreSQL, MongoDB.
     Concurrency control
 
 -->Structured Data
-Structured data is highly organized and formatted so that it is easily searchable in relational databases. It follows a rigid schema (a blueprint), meaning every piece of data must fit into a predefined category and format.
+Structured data is highly organized and formatted so that it is easily searchable in relational databases. 
+It follows a rigid schema (a blueprint), meaning every piece of data must fit into a predefined category and format.
 
 -->Semi-Structured Data
-Semi-structured data does not reside in a relational database but has some organizational properties that make it easier to analyze than raw data. It uses metadata or tags to separate data elements and create hierarchies.
+Semi-structured data does not reside in a relational database but has some organizational properties that make it easier to analyze than raw data.
+It uses metadata or tags to separate data elements and create hierarchies.
 
 -->Unstructured Data
-Unstructured data is information that either lacks a predefined data model or is not organized in a predefined manner. It is typically "heavy" data that is difficult for traditional machines to understand without specialized tools like AI or Natural Language Processing (NLP).
+Unstructured data is information that either lacks a predefined data model or is not organized in a predefined manner. 
+It is typically "heavy" data that is difficult for traditional machines to understand without specialized tools like AI or Natural Language Processing (NLP).
 
 -->Data Abstraction
     Three levels:
@@ -35,15 +38,19 @@ Unstructured data is information that either lacks a predefined data model or is
         View Level – User-specific view.
 
 -->Three Schema Architecture
-The major purpose of a database system is to provide users with an abstract view of data. Developers hide the complexity through several levels of abstraction. 
+The major purpose of a database system is to provide users with an abstract view of data. 
+Developers hide the complexity through several levels of abstraction. 
 
 It divides the database into:
     1. External level
-        This is the "highest" level and is the one closest to the users. It describes only the part of the database that is relevant to a specific user or group.
+        This is the "highest" level and is the one closest to the users. 
+        It describes only the part of the database that is relevant to a specific user or group.
     2. Conceptual Schema
-        It describes what data is stored in the entire database and the relationships among that data. It defines all the tables (entities), their attributes (columns), data types, and constraints (like unique keys). 
+        It describes what data is stored in the entire database and the relationships among that data. 
+        It defines all the tables (entities), their attributes (columns), data types, and constraints (like unique keys). 
     3. Internal Level (Physical level)
-        It describes how the data is physically stored on the storage devices. It deals with complex details like data compression, encryption, and file structures.
+        It describes how the data is physically stored on the storage devices. 
+        It deals with complex details like data compression, encryption, and file structures.
 
 NB: The process of transforming requests & results between levels is called mapping.
 
@@ -88,7 +95,8 @@ Defined as the capacity to change the schema at one level of a DB system without
 
 -->Entity-Relationship (ER) Model 
     1.Entity
-        An entity is any real-world object that is distinguishable from other objects. In ER modeling, an entity is represented by a rectangle and refers to a table in the database.  
+        An entity is any real-world object that is distinguishable from other objects. 
+        In ER modeling, an entity is represented by a rectangle and refers to a table in the database.  
         Example: Student, Course, Employee.
     2.Attributes
         Attributes are properties or characteristics of an entity. They are represented by ellipses in ER diagrams. 
@@ -110,7 +118,8 @@ Defined as the capacity to change the schema at one level of a DB system without
             Many-to-Many (M:N)
         
 -->Entity Set
-    An entity set is a collection of entities of the same type that share common properties or attributes. In other words, it is a set of similar entities.
+    An entity set is a collection of entities of the same type that share common properties or attributes. 
+    In other words, it is a set of similar entities.
     Example: A "Student" entity set can contain all students in a college.
     
 -->Keys
@@ -122,22 +131,26 @@ Defined as the capacity to change the schema at one level of a DB system without
      Alternative Key - Candidate key that is not selected as a primary key.     
 
 -->Cardinality 
-    Cardinality in ER diagrams refers to the number of instances of one entity that can be associated with the number of instances of another entity in a relationship. It specifies the minimum and maximum number of relationships that can exist between two entities. 
+    Cardinality in ER diagrams refers to the number of instances of one entity that can be associated with the number of instances of another entity in a relationship. 
+    It specifies the minimum and maximum number of relationships that can exist between two entities. 
     Example: In a "Student" and "Course" relationship, the cardinality can be one-to-many, meaning one student can enroll in many courses, but one course can be enrolled in by many students.  
     
 -->Participation
-    Participation in ER diagrams refers to the degree to which an entity is involved in a relationship. It specifies the minimum and maximum number of relationships that can exist between two entities. 
+    Participation in ER diagrams refers to the degree to which an entity is involved in a relationship. 
+    It specifies the minimum and maximum number of relationships that can exist between two entities. 
     Example: In a "Student" and "Course" relationship, the participation can be total, meaning every student must enroll in at least one course, or partial, meaning some students may not enroll in any course.
     Types of Participation:
         Total Participation - Minimum participation is 1 (entity must participate in the relationship)
         Partial Participation   - Minimum participation is 0 (entity may not participate in the relationship)
 
 -->Strong Entity
-    A strong entity is an entity that can be identified by its own attributes. It has a primary key that uniquely identifies each entity in the entity set.  
+    A strong entity is an entity that can be identified by its own attributes. 
+    It has a primary key that uniquely identifies each entity in the entity set.  
     Example: A "Student" entity is a strong entity because it can be identified by its own attributes, such as Roll Number, Name, Age, and Grade.  
     
 -->Weak Entity
-    A weak entity is an entity that cannot be identified by its own attributes. It depends on another entity (called the owner or identifying entity) for its identification.  
+    A weak entity is an entity that cannot be identified by its own attributes. 
+    It depends on another entity (called the owner or identifying entity) for its identification.  
     Example: A "Dependent" entity is a weak entity because it cannot be identified by its own attributes. It depends on the "Employee" entity for its identification.
     
 -->Components of ER Diagrams
@@ -234,7 +247,8 @@ Data is stored in tables called relations.
  -->OrderBy
     -The ORDER BY clause is used to sort the results of a query.   
     -Syntax: 
-        SELECT column1, column2 FROM table_name WHERE condition GROUP BY column1, column2 HAVING condition ORDER BY column1, column2 ASC/DESC;
+        SELECT column1, column2 FROM table_name WHERE condition GROUP BY column1, column2 
+        HAVING condition ORDER BY column1, column2 ASC/DESC;
     -Example: 
         SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 10 ORDER BY COUNT(*) DESC;   
 
@@ -360,7 +374,8 @@ MODULE 3 :- Transaction Processing & Concurrency Control
             -Multiple transactions should be able to execute independently without affecting each other. 
             -Each transaction should appear to be the only transaction executing in the system.
             -Example: 
-                If two users are withdrawing money from the same account at the same time, the result should be the same as if they were executing one after the other.
+                If two users are withdrawing money from the same account at the same time, 
+                the result should be the same as if they were executing one after the other.
             
         4.Durability -
             -Once a transaction is committed, its changes should be permanent and should not be lost even if the system fails. 
@@ -391,7 +406,8 @@ MODULE 3 :- Transaction Processing & Concurrency Control
                 -A situation where one transaction reads new rows that are inserted by another transaction.
 
 -->Serializability
-    -A serializability is a property of concurrent transactions that ensures that the result of concurrent execution is the same as the result of serial execution.  
+    -A serializability is a property of concurrent transactions that ensures that the result of 
+    concurrent execution is the same as the result of serial execution.  
     -->conflict serializability 
         -Detect conflicts between transactions 
             -> Create conflict graph 
